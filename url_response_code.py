@@ -4,7 +4,7 @@ import json
 
 def get_urls():
     response = requests.get(
-        "http://partdcinvestmentfunds-prod.partdp.ir/service/partdcInvestmentFunds@latest/evaluateUrls"
+        "example.com"
     )
     data = response.json()
     urls = []
