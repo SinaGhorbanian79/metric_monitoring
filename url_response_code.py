@@ -4,7 +4,7 @@ import json
 
 def get_urls():
     response = requests.get(
-        "example.com"
+        "http://example.com/endpoint"
     )
     data = response.json()
     urls = []
@@ -42,19 +42,20 @@ def get_status_code(url, headers):
         response = requests.get(
             url, headers=headers, allow_redirects=True, verify=False, timeout=30
         )
-        if response.status_code != 200 :
-            url = url.replace("https", "http")
-            response = requests.get(
-                url, headers=headers, allow_redirects=True, verify=False, timeout=30
-            )
+        response.raise_for_status()
         return {"url": url, "status_code": response.status_code}
     except:
         try:
-            url = url.replace("https", "http")
-            response = requests.get(
-                url, headers=headers, allow_redirects=True, verify=False, timeout=30
+            http_url = url.replace("https", "http")
+            http_response = requests.get(
+                http_url,
+                headers=headers,
+                allow_redirects=True,
+                verify=False,
+                timeout=30,
             )
-            return {"url": url, "status_code": response.status_code}
+            http_response.raise_for_status()
+            return {"url": url, "status_code": http_response.status_code}
         except:
             return {"url": url, "status_code": 0}
 
